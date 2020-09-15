@@ -525,18 +525,18 @@ function Person(){}
 原型指的就是一个对象，实例“继承”那个对象的属性。
 在原型上定义的属性，通过“继承”，实例也拥有了这个属性。“继承”这个行为是在 new 操作符内部实现的。<br/>
 先不说实例，原型与构造函数的关系就是，构造函数内部有一个名为 prototype 的属性，通过这个属性就能访问到原型：<br/>
-![](image/prototype.png) <br/>
+![](./image/prototype.png) <br/>
 
 Person 就是构造函数，Person.prototype 就是原型
-![](image/prototype_1.png) <br/>
+![](./image/prototype_1.png) <br/>
 
 ## proto 隐式原型
 实例通过 __proto__ 访问到原型，所以如果是实例，那么就可以通过这个属性直接访问到原型 <br/>
-![](image/prototype_3.png) <br/>
+![](./image/prototype_3.png) <br/>
 
-![](image/prototype_4.png) <br/>
+![](./image/prototype_4.png) <br/>
 
-![](image/prototype_5.png) <br/>
+![](./image/prototype_5.png) <br/>
 
 # object
 ## Object.getPrototypeOf() 
