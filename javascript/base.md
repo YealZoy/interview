@@ -527,7 +527,8 @@ function Person(){}
 先不说实例，原型与构造函数的关系就是，构造函数内部有一个名为 prototype 的属性，通过这个属性就能访问到原型：<br/>
 ![](./image/prototype.png) <br/>
 
-Person 就是构造函数，Person.prototype 就是原型
+Person 就是构造函数，Person.prototype 就是原型 <br/>
+
 ![](./image/prototype_1.png) <br/>
 
 ## proto 隐式原型
