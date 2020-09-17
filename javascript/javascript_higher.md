@@ -230,3 +230,11 @@ var a = Singleton.getInstance( 'sven1' );
 var b = Singleton.getInstance( 'sven2' );
 alert ( a === b ); // true
 ```
+
+
+
+
+
+
+
+
