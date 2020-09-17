@@ -80,11 +80,6 @@ dom.addEventListener('custome', funcion () {});
 dom.dispatchEvent(event);
 ```
 
-# 
-
-# 深拷贝
-
-# 正则
 
 # 防抖节流
 ```javascript
@@ -124,23 +119,6 @@ function throttle(fn,delay){
     }
 }
 ```
-
-# http
-
-# flex
-
-# 实现固定宽高比(width:height => 4:3)
-
-# 设计模式 (单例，发布者/订阅)
-
-# 安全
-
-# 事件循环
-
-# promise
-
-# 浏览器渲染
-
 
 # mouseover和mouseenter的区别?
 + mouseover：当鼠标移入元素或其子元素都会触发事件，所以有一个重复触发，冒泡的过程。
