@@ -230,7 +230,66 @@ var a = Singleton.getInstance( 'sven1' );
 var b = Singleton.getInstance( 'sven2' );
 alert ( a === b ); // true
 ```
+# 发布/订阅模式
+```javascript
+var Event = function() {
+  this.obj = {}
+}
 
+Event.prototype.on = function(eventType, fn) {
+  if (!this.obj[eventType]) {
+    this.obj[eventType] = []
+  }
+  this.obj[eventType].push(fn)
+}
+
+Event.prototype.emit = function() {
+  var eventType = Array.prototype.shift.call(arguments)
+  var arr = this.obj[eventType]
+  for (let i = 0; i < arr.length; i++) {
+    arr[i].apply(arr[i], arguments)
+  }
+}
+
+var ev = new Event()
+
+ev.on('click', function(a) { // 订阅函数
+  console.log(a) // 1
+})
+
+ev.emit('click', 1)          // 发布函数
+```
+
+# 观察者模式
+```javascript
+var obj = {
+  data: { list: [] },
+}
+
+Object.defineProperty(obj, 'list', {
+  get() {
+    return this.data['list']
+  },
+  set(val) {
+    console.log('值被更改了')
+    this.data['list'] = val
+  }
+})
+
+// ------
+var obj = {
+  value: 0
+}
+
+var proxy = new Proxy(obj, {
+  set: function(target, key, value, receiver) { // {value: 0}  "value"  1  Proxy {value: 0}
+    console.log('调用相应函数')
+    Reflect.set(target, key, value, receiver)
+  }
+})
+
+proxy.value = 1 // 调用相应函数
+```
 
 
 
