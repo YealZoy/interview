@@ -7,7 +7,7 @@
 + bootstrap
 + Nodejs
 + 操作系统
-+ 设计模式
-+ javascript
++ [设计模式](./设计模式/readme.md)
++ [javascript](./javascript/readme.md)
 + 前端工作流
 + 数据库
