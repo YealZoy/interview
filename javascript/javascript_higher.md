@@ -130,6 +130,19 @@ cost( 100 ); // 未真正求值
 cost( 200 ); // 未真正求值
 cost( 300 ); // 未真正求值
 alert ( cost() ); // 求值并输出：600
+
+
+
+// -------- es5
+function curry (fn, arr = []) {
+    return fn.length === arr.length ? fn.apply(null, arr) : function (...args) {
+        return curry (fn, arr.concat(args))
+    }
+}
+
+
+// es6 
+const curry = (fn, arr = []) => fn.length === arr.length ? fn(...arr) : (...args) => curry(fn, [...arr, ...args]);
 ```
 
 ### 函数节流
