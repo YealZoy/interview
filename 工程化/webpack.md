@@ -1871,7 +1871,7 @@ module.exports = {
 */
 
 const { resolve } = require('path');
-const webpack = require('webpack');
+const webpack = require('工程化/webpack');
 
 module.exports = {
   entry: {
@@ -1899,7 +1899,7 @@ module.exports = {
 ```js
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
+const webpack = require('工程化/webpack');
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
