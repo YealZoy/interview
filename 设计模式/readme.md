@@ -1,25 +1,15 @@
 # UML类图
  ![](image/类图_1.png) <br/>
  
- ![](image/类图_2.png) <br/>
+ ![](image/类图_2_0.png) <br/>
+ 
+![](image/类图_2_1.png) <br/> 
 + 空心线表示继承关系
 + 实心线表示引用关系
 + 虚线空心表示实现关系
 
 # 设计的一些准则
 + 小即是美
-+ 让每个程序只做好一件事
-+ 快速的建立原型
-+ 舍弃高效率而取可移植性
-+ 采用纯文本来存储数据
-+ 充分利用软件的可复用性（杠杆效应）
-+ 使用一些脚本来提高杠杆效应和可移植性（shell）
-+ 避免强制性的用户界面
-+ 让每个程序都称为过滤器
-+ 允许用户指定一些环境
-+ 尽量使内核代码小而轻
-+ 使各部分和大于整体
-+ 寻求90%的解决方案• 小即是美
 + 让每个程序只做好一件事
 + 快速的建立原型
 + 舍弃高效率而取可移植性
@@ -39,7 +29,7 @@
     + 一个程序制作好一件事
     + 如果功能过于复杂就拆分，保持每个部分独立
 + O-开放封闭原则
-    + 对扩展开发，对修改封闭
+    + 对扩展开放，对修改封闭
     + 增加需求时，扩展新代码，而非修改已有的代码
 + L-李氏置换原则
     + 子类覆盖父类
@@ -64,7 +54,7 @@
 
 
 # 工厂模式
-![](image/factory.png)
+![](image/factory_1.png)
 ```javascript
 class Person{
     constructor(name){
@@ -109,7 +99,7 @@ singleton.getInstance = function(name) {
 
 # 适配器模式
 使用一个类为不同类方法提供统一的接口，从而达到适配的目的，所以核心思想也就是为了解决接口不兼容问题
-![](image/adapte.png)
+![](image/adapte_1.png)
 ```javascript
 class Adaptee{
     specificRequest(){
@@ -132,7 +122,7 @@ new Target(new Adaptee).request()
 
 # 代理模式
 可以给客户端提供无法直接访问到服务端的接口或者是需要处理的方法，这里注意的是，提供的方法一定要和服务端默认的方法名字是一样的。
-![](image/proxy.png)
+![](image/proxy_1.png)
 ```javascript
 class CEO{
     getPhoneNo(){
@@ -197,11 +187,11 @@ console.log(mvvm)
 
 # 装饰器模式
 就是为了和对象或者对象上的属性或者方法增加新的功能，并且不改变原有的结构和功能
-![](image/decrator.png)
+![](image/decrator_1.png)
 ```javascript
 class Greeter {
-    greeting: string;
-    constructor(message: string) {
+    greeting;
+    constructor(message) {
         this.greeting = message;
     }
     @log
@@ -249,7 +239,7 @@ new B().foo() // foo
 # 观察者模式
 观察者模式，有的称之为订阅发布模式.
 一堆观察者或者订阅者去观察或者订阅一个主题，当这个主题变化时，就会通知所监听或者观察它订阅者
-![](image/observer.png)
+![](image/observer_1.png)
 ```javascript
 class Subject{
   constructor(){
@@ -291,26 +281,9 @@ const subject = new Subject;
 const o1 = new Observer('o1');
 const o2 = new Observer('o2')
 
-subject.on(o1)
-subject.on(o2)
-subject.setState({
-  'message': 'holle'
-})
-subject.emit()
-subject.off(o1)
-subject.setState({
-  'message': 'bey bey'
-})
-subject.emit()
-subject.off()
-subject.emit()
-/*
-有观察者进行了开始观察o1
-有观察者进行了开始观察o2
-观察者o1观察到了，state的变化为{"message":"holle"}
-观察者o2观察到了，state的变化为{"message":"holle"}
-观察者o1离开了
-观察者o2观察到了，state的变化为{"message":"bey bey"}
-观察者都离开了
-*/
+subject.setState(1);
+subject.setState(2);
+
+subject.setState(1);
+subject.setState(2);
 ```
