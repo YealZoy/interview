@@ -278,8 +278,8 @@ class Observer{
 }
 
 const subject = new Subject;
-const o1 = new Observer('o1');
-const o2 = new Observer('o2')
+const o1 = new Observer('o1',subject);
+const o2 = new Observer('o2',subject);
 
 subject.setState(1);
 subject.setState(2);
