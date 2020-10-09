@@ -247,7 +247,6 @@ function throllte(fn,wait) {
 var curry = fn =>
     judge = (...args) =>
         args.length === fn.length? fn(...args): (...arg) => judge(...args, ...arg)
- 
 ```
 
 # 类型检查

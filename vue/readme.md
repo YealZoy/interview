@@ -45,4 +45,34 @@ Vue 将被侦听的数组的变更方法进行了包裹，所以它们也将会�
 <input v-on:keyup.enter="submit">
 ```
 
-https://juejin.im/post/6844904117106655246
+# 源码分析
+## flow
+Flow 是 facebook 出品的 JavaScript 静态类型检查工具。Vue.js 的源码利用了 Flow 做了静态类型检查
+
+
+## Vue.js 源码目录设计
+```
+src
+├── compiler        # 编译相关 它包括把模板解析成 ast 语法树，ast 语法树优化，代码生成等功能
+├── core            # 核心代码  包括内置组件、全局 API 封装，Vue 实例化、观察者、虚拟 DOM、工具函数等等。
+├── platforms       # 不同平台的支持 Vue.js 是一个跨平台的 MVVM 框架，它可以跑在 web 上，也可以配合 weex 跑在 native 客户端上。platform 是 Vue.js 的入口，2 个目录代表 2 个主要入口，分别打包成运行在 web 上和 weex 上的 Vue.js。
+├── server          # 服务端渲染 Vue.js 2.0 支持了服务端渲染，所有服务端渲染相关的逻辑都在这个目录下
+├── sfc             # .vue 文件解析 通常我们开发 Vue.js 都会借助 webpack 构建， 然后通过 .vue 单文件来编写组件
+├── shared          # 共享代码
+```
+
+
+## 运行时 + 编译器 vs. 只包含运行时
+如果你需要在客户端编译模板 
+(比如传入一个字符串给 template 选项，或挂载到一个元素上并以其 DOM 内部的 HTML 作为模板)，
+就将需要加上编译器
+
+
+
+
+
+[参考文档](https://ustbhuangyi.github.io/vue-analysis/v2/prepare/)
+[参考文档](https://www.vue-js.com/learn-vue/start/)
+
+# 面试
+[https://juejin.im/post/6844904084374290446](https://juejin.im/post/6844904084374290446)

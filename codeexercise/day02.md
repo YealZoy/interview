@@ -125,25 +125,33 @@ class Promise{
         let _this = this;
 
         function resolve() {
-            if(this.state == PENDING || this.state == undefined){
+            if(this.state == PENDING){
                 this.state = FULLID;
                 this.value = arguments;
+                if(this.onFullid.length > 0){
+                    this.onFullid.forEach(item=>{
+                        _this.value = item(_this.value);
+                    })
+                }   
             }
-            if(this.onFullid.length > 0 && thiis.onReject.length > 0){
-                this.onFullid.forEach(item=>{
-                    _this.value = item(_this.value);
-                })
-                this.onReject.forEach(item=>{
-                    item(_this.reason);
-                })
-
-            }         
+                  
             
         }
         
         function reject(){
-            this.state = reject;
-            this.reason = arguments;
+            if(this.state == PENDING){
+                this.state = reject;
+                this.reason = arguments;
+                
+                if(this.onReject.length > 0){
+                    this.onReject.forEach(item=>{
+                        _this.value = item(_this.value);
+                    })
+                }  
+            }
+            
+
+            
         }   
         
         try {
@@ -219,7 +227,8 @@ let eventUtil = {
 
 # 函数柯里化
 ```javascript
-let curry = () => 
+let curry = (fn,arr=[]) => 
+    fn.length === arr.length ? fn.apply(...arr) : arr => curry(fn,[arguments,...arr]);
 ```
 
 # 类型检查
