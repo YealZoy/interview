@@ -14,7 +14,7 @@
 + gulp
 + [rollup](./工程化/rollup.md)
 + [module](./工程化/module.md)
-+ 性能优化
++ [性能优化](./性能优化/readme.md)
 
 <hr/>
 

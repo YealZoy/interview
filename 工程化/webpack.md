@@ -1812,7 +1812,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/built.[contenthash:10].css'
     }),
-    new OptimizeCssAssetsWebpackPlugin(),
+    new OptimizeCssAssetsWebpackPluginOptimizeCssAssetsWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       minify: {
