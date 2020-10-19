@@ -62,15 +62,6 @@ src
 ```
 
 
-## 运行时 + 编译器 vs. 只包含运行时
-如果你需要在客户端编译模板 
-(比如传入一个字符串给 template 选项，或挂载到一个元素上并以其 DOM 内部的 HTML 作为模板)，
-就将需要加上编译器
-
-
-
-
-
 [参考文档](https://ustbhuangyi.github.io/vue-analysis/v2/prepare/)
 [参考文档](https://www.vue-js.com/learn-vue/start/)
 

@@ -35,3 +35,41 @@
 <hr/>
 
 + 手撕代码
+
+
+路由实现
+babel实现 
+webpack实现  配置 loader plugin 优化
+文件监听工作原理
+
+
+vue原理 实现 
+vuex
+
+
+rollup 
+webpack 之间选择
+
+
+
+
+docker原理
+kubernetes
+
+messos
+
+geoserver 
+
+浏览器原理 
+浏览器缓存机制
+缓存
+
+http
+https
+
+项目优化
+为什么要使用单页面应用
+
+
+
+
