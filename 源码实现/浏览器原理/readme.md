@@ -42,6 +42,7 @@
 + Cache-Control 的值为 no-cache （不强缓存）
 + 或者 max-age 过期了 （强缓存，但总有过期的时候）
 ![](image/cache-2.png)
+
 这个图，虽然强缓存命中，但是也有 ETag 和 Last-Modified ，这两个就是协商缓存的相关规则。<br/>
 + ETag：每个文件有一个，改动文件了就变了，可以看似md5
 + Last-Modified：文件的修改时间
