@@ -191,6 +191,7 @@ let curry = (func,args=[]) => func.length === args.length ? func(args) : args =>
 + call,apply
 
 10.babel 语法兼容
+![](./image/babel.png)
 + babel core 转ast
 + babel-traverse 遍历
 + 生成新的Ast
@@ -201,18 +202,21 @@ let curry = (func,args=[]) => func.length === args.length ? func(args) : args =>
   babel-transform-runtime 按需加入
 
 12.观察者
-观察者模式指的是一个对象(Object a)维持一系列依赖(关注这个词感觉更好)它的对象（Object b,c,d） 当它的有关状态发生变化时Object a就要通知一系列Object b,c,d对象进行更新
+观察者模式指的是一个对象(Object a)维持一系列依赖(关注这个词感觉更好)它的对象（Object b,c,d） 
+当它的有关状态发生变化时Object a就要通知一系列Object b,c,d对象进行更新<br/>
 
-“老王，等你结婚了，记得叫我来喝喜酒！”
-于是有一天你真的要结婚了，且需要举办酒席，这时候你需要通知你的你的那些老友来喝喜酒。于是你拿起了手机给你的那些分布于世界各地的好朋友打起了电话，说了结婚酒席一事。
+“老王，等你结婚了，记得叫我来喝喜酒！”<br/>
+于是有一天你真的要结婚了，且需要举办酒席，这时候你需要通知你的你的那些老友来喝喜酒。
+于是你拿起了手机给你的那些分布于世界各地的好朋友打起了电话，说了结婚酒席一事。
 到了酒席那天，有的朋友来了，有的人没来礼却到了，有的呢只有简短的两句祝福，剩下的只有推脱。<br/>
+
 ![](image/observer.png)
 
 在观察者模式中，目标与观察者相互独立，又相互联系：<br/>
 + 两者都是相互独立的对对象个体。
 + 观察者在目标对象中订阅事件，目标广播发布事件。
 
-就像之前的例子一样：
+就像之前的例子一样：<br/>
 + 老王就是模式中所谓的目标。
 + 同学们在毕业前说的话就相当于在目标对象上订阅事件。
 + 老王打电话通知朋友就是发布事件。
@@ -450,179 +454,223 @@ let object = {
 18.随机数 范围 （star,end) => Math.random() * length + start;
 
 19.类型判断
-原始类型的值无法更改，要更改只能重新赋值。
-![](image/type.png)
-原始类型的比较就是比较值，值相等，他们就相等
+原始类型的值无法更改，要更改只能重新赋值。<br/>
+![](image/type.png)<br/>
 
+原始类型的比较就是比较值，值相等，他们就相等<br/>
 ![](image/type-1.png)<br/>
 
 + typeof
-+ instance
-+ prototype
++ instance 原型链
++ prototype 
 + constructor
 
 20.object
 
+
 # 浏览器
-1.js内存
+1.js内存 <br/>
 栈内存 <br/>
 栈是一种只能一端进出的数据结构，先进后出，后进先出。<br/>
 ![](image/stack-memery.png)<br/>
-以var a = 10; 为例，我们先将10放入内存，然后申明一个变量a，这时候a的值是undefined，最后进行赋值，就是将a与10关联起来<br/>
 
-堆内存
+以var a = 10; 为例，我们先将10放入内存，然后申明一个变量a，
+这时候a的值是undefined，最后进行赋值，就是将a与10关联起来<br/>
+
+堆内存<br/>
 但是引用数据类型，比如Object, Array，他们的大小不是固定的，所以是存在堆内存的。<br/>
+
 JS不允许直接操作堆内存，我们在操作对象时，操作的实际是对象的引用，而不是实际的对象。<br/>
-可以理解为对象在栈里面存了一个内存地址，这个地址指向了堆里面实际的对象。所以引用类型的值是一个指向堆内存的引用地址<br/>
+
+可以理解为对象在栈里面存了一个内存地址，这个地址指向了堆里面实际的对象。
+所以引用类型的值是一个指向堆内存的引用地址<br/>
 ![](image/heap-memery.png)
 
 函数也是引用类型，当我们定义一个函数时，会在堆内存中开辟一块内存空间，将函数体代码以字符串的形式存进去。<br/>
 然后将这块内存的地址赋值给函数名，函数名和引用地址会存在栈上<br/>
-
 ![](image/heap-function.png)<br/>
 
-v8内存管理
+v8内存管理 <br/>
 V8是有内存限制的，因为它最开始是为浏览器设计的，不太可能遇到大量内存的使用场景
-因此V8限制了内存使用的大小，但是Node.js是可以通过配置修改的，更好的做法是使用Buffer对象，因为Buffer的内存是底层C++分配的，不占用JS内存，所以他也就不受V8限制。
+因此V8限制了内存使用的大小，但是Node.js是可以通过配置修改的，
+更好的做法是使用Buffer对象，因为Buffer的内存是底层C++分配的，
+不占用JS内存，所以他也就不受V8限制。
 
 
-2.浏览器垃圾回收
-引用计数
-它跟踪记录每个值被引用的次数，每次引用的时候加一，被释放时减一，如果一个值的引用次数变成0了，就可以将其内存空间回收。<br/>
-其 BOM 和 DOM 中的对象就是使用 C++以 COM（Component Object Model，组件对象模型）对象的形式实现的，而 COM对象的垃圾 收集机制采用的就是引用计数策略。
-循环引用
+2.浏览器垃圾回收 <br/>
+引用计数 <br/>
+它跟踪记录每个值被引用的次数，每次引用的时候加一，被释放时减一，
+如果一个值的引用次数变成0了，就可以将其内存空间回收。<br/>
+其 BOM 和 DOM 中的对象就是使用 C++以 COM（Component Object Model，组件对象模型）
+对象的形式实现的，而 COM对象的垃圾 收集机制采用的就是引用计数策略。<br/>
+
+循环引用<br/>
 ```javascript
 var element = document.getElementById("some_element"); 
 var myObject = new Object();
 myObject.element = element; 
 element.someObject = myObject;
 ```
-标记-清除算法
-标记-清除算法就是当变量进入环境是，这个变量标记位“进入环境”；而当变量离开环境时，标记为“离开环境”，当垃圾回收时销毁那些带标记的值并回收他们的内存空间。
+标记-清除算法 <br/>
+标记-清除算法就是当变量进入环境是，这个变量标记位“进入环境”；<br/>
+而当变量离开环境时，标记为“离开环境”，当垃圾回收时销毁那些带标记的值并回收他们的内存空间。<br/>
 
-可能造成内存泄露的情况
-1. 对象之间的循环引用
-2. 老版IE（IE8及以前）里面DOM与对象之间的循环引用
+可能造成内存泄露的情况 <br/>
++ 对象之间的循环引用
++ 老版IE（IE8及以前）里面DOM与对象之间的循环引用
 
-其他也可能造成循环引用的情况：
+其他也可能造成循环引用的情况：<br/>
++ 全局变量会存在于整个应用生命周期，应用不退出不会回收，使用严格模式可以避免这种情况
++ 闭包因为自身特性，将函数内部变量暴露到了外部作用域，当其自身执行结束时，所暴露的变量并不会回收
++ 没有clear的定时器
 
-1. 全局变量会存在于整个应用生命周期，应用不退出不会回收，使用严格模式可以避免这种情况
-2. 闭包因为自身特性，将函数内部变量暴露到了外部作用域，当其自身执行结束时，所暴露的变量并不会回收
-3. 没有clear的定时器
+V8采用了分代回收的策略，将内存分为两个生代：新生代和老生代 <br/>
 
-新生代内存回收机制：
-新生代内存容量小，64位系统下仅有32M。新生代内存分为From、To两部分，进行垃圾回收时，先扫描From，将非存活对象回收，将存活对象顺序复制到To中，之后调换From/To，等待下一次回收
+新生代内存回收机制：<br/>
+新生代内存容量小，64位系统下仅有32M。<br/>
+新生代内存分为From、To两部分，<br/>
+进行垃圾回收时，先扫描From，将非存活对象回收， <br/>
+将存活对象顺序复制到To中，<br/>
+之后调换From/To，等待下一次回收 <br/>
 
-老生代内存回收机制
-晋升：如果新生代的变量经过多次回收依然存在，那么就会被放入老生代内存中
+老生代内存回收机制 <br/>
+晋升：如果新生代的变量经过多次回收依然存在，那么就会被放入老生代内存中 <br/>
 标记清除：老生代内存会先遍历所有对象并打上标记，然后对正在使用或被强引用的对象取消标记，回收被标记的对象
 整理内存碎片：把对象挪到内存的一端
 
-
-
 3.v8执行过程
 ![](image/v8-run.png)
-初始化基础环境
-解析源码生成ast和作用域
-依据ast和作用域生成字节码
-解释器解释执行字节码
-监听热点代码
-编译器优化热点代码为二进制的机器码
-反优化二进制机器代码
++ 初始化基础环境 
++ 解析源码生成ast和作用域
++ 依据ast和作用域生成字节码
++ 解释器解释执行字节码
++ 监听热点代码
++ 编译器优化热点代码为二进制的机器码
++ 反优化二进制机器代码
 
-![](image/v8-run-2.png)
-预解析：检查语法错误但不生成AST
-生成AST：经过词法/语法分析，生成抽象语法树
-生成字节码：基线编译器(Ignition)将AST转换成字节码
-生成机器码：优化编译器(Turbofan)将字节码转换成优化过的机器码，此外在逐行执行字节码的过程中，如果一段代码经常被执行，那么V8会将这段代码直接转换成机器码保存起来，下一次执行就不必经过字节码，优化了执行速度
+<br/>
+<br/>
+
+![](image/v8-run-2.png) 
++ 预解析：检查语法错误但不生成AST
++ 生成AST：经过词法/语法分析，生成抽象语法树
++ 生成字节码：基线编译器(Ignition)将AST转换成字节码
++ 生成机器码：优化编译器(Turbofan)将字节码转换成优化过的机器码，此外在逐行执行字节码的过程中，如果一段代码经常被执行，那么V8会将这段代码直接转换成机器码保存起来，下一次执行就不必经过字节码，优化了执行速度
 
 
 
-4.event loop
-JS异步是怎么实现的?
-我们都知道JS是单线程的，那单线程是怎么实现异步的呢？
-事实上所谓的"JS是单线程的"只是指JS的主运行线程只有一个，而不是整个运行环境都是单线程。
+4.event loop <br/>
+JS异步是怎么实现的? <br/>
+我们都知道JS是单线程的，那单线程是怎么实现异步的呢？ <br/>
+
+事实上所谓的"JS是单线程的"只是指JS的主运行线程只有一个，而不是整个运行环境都是单线程。 <br/>
+
 JS的运行环境主要是浏览器，以大家都很熟悉的Chrome的内核为例，他不仅是多线程的，而且是多进程的：
 ![](image/browser.png)
 
-GUI线程
+GUI线程 <br/>
 GUI线程就是渲染页面的，他解析HTML和CSS，然后将他们构建成DOM树和渲染树就是这个线程负责的。
 
-JS引擎线程
+JS引擎线程 <br/>
 这个线程就是负责执行JS的主线程，前面说的"JS是单线程的"就是指的这个线程。大名鼎鼎的Chrome V8引擎就是在这个线程运行的。
-需要注意的是，这个线程跟GUI线程是互斥的。
-互斥的原因是JS也可以操作DOM，如果JS线程和GUI线程同时操作DOM，结果就混乱了，不知道到底渲染哪个结果。
-这带来的后果就是如果JS长时间运行，GUI线程就不能执行，整个页面就感觉卡死了。所以我们最开始例子的while(true)这样长时间的同步代码在真正开发时是绝对不允许的
+需要注意的是，这个线程跟GUI线程是互斥的。<br/>
 
-定时器线程
-前面异步例子的setTimeout其实就运行在这里，他跟JS主线程根本不在同一个地方，所以“单线程的JS”能够实现异步。JS的定时器方法还有setInterval，也是在这个线程。
+互斥的原因是JS也可以操作DOM，如果JS线程和GUI线程同时操作DOM，结果就混乱了，不知道到底渲染哪个结果。<br/>
+这带来的后果就是如果JS长时间运行，GUI线程就不能执行，整个页面就感觉卡死了。
+所以我们最开始例子的while(true)这样长时间的同步代码在真正开发时是绝对不允许的<br/>
+
+定时器线程<br/>
+前面异步例子的setTimeout其实就运行在这里，他跟JS主线程根本不在同一个地方，
+所以“单线程的JS”能够实现异步。JS的定时器方法还有setInterval，也是在这个线程。
 
 
-事件触发线程
-定时器线程其实只是一个计时的作用，他并不会真正执行时间到了的回调，真正执行这个回调的还是JS主线程。
-所以当时间到了定时器线程会将这个回调事件给到事件触发线程，然后事件触发线程将它加到事件队列里面去。
-最终JS主线程从事件队列取出这个回调执行。事件触发线程不仅会将定时器事件放入任务队列，其他满足条件的事件也是他负责放进任务队列。
+事件触发线程 <br/>
+定时器线程其实只是一个计时的作用，他并不会真正执行时间到了的回调，真正执行这个回调的还是JS主线程。<br/>
+所以当时间到了定时器线程会将这个回调事件给到事件触发线程，然后事件触发线程将它加到事件队列里面去。<br/>
+最终JS主线程从事件队列取出这个回调执行。事件触发线程不仅会将定时器事件放入任务队列，其他满足条件的事件也是他负责放进任务队列。<br/>
 
-异步HTTP请求线程
-这个线程负责处理异步的ajax请求，当请求完成后，他也会通知事件触发线程，然后事件触发线程将这个事件放入事件队列给主线程执行。
+异步HTTP请求线程 <br/>
+这个线程负责处理异步的ajax请求，当请求完成后，他也会通知事件触发线程，
+然后事件触发线程将这个事件放入事件队列给主线程执行。<br/>
 所以JS异步的实现靠的就是浏览器的多线程，当他遇到异步API时，就将这个任务交给对应的线程，
-当这个异步API满足回调条件时，对应的线程又通过事件触发线程将这个事件放入任务队列，然后主线程从任务队列取出事件继续执行
+当这个异步API满足回调条件时，对应的线程又通过事件触发线程将这个事件放入任务队列，然后主线程从任务队列取出事件继续执行 <br/>
 
-浏览器的Event Loop
-事件循环就是一个循环，是各个异步线程用来通讯和协同执行的机制。
-各个线程为了交换消息，还有一个公用的数据区，这就是事件队列。
+浏览器的Event Loop <br/>
+事件循环就是一个循环，是各个异步线程用来通讯和协同执行的机制。<br/>
+各个线程为了交换消息，还有一个公用的数据区，这就是事件队列。<br/>
 各个异步线程执行完后，通过事件触发线程将回调事件放到事件队列，主线程每次干完手上的活儿就来看看这个队列有没有新活儿，有的话就取出来执行。
 画成一个流程图就是这样：
 ![](image/event-loop.png)<br/>
-主线程每次执行时，先看看要执行的是同步任务，还是异步的API
-同步任务就继续执行，一直执行完
-遇到异步API就将它交给对应的异步线程，自己继续执行同步任务
-异步线程执行异步API，执行完后，将异步回调事件放入事件队列上
-主线程手上的同步任务干完后就来事件队列看看有没有任务
-主线程发现事件队列有任务，就取出里面的任务执行
-主线程不断循环上述流程
++ 主线程每次执行时，先看看要执行的是同步任务，还是异步的API
++ 同步任务就继续执行，一直执行完
++ 遇到异步API就将它交给对应的异步线程，自己继续执行同步任务
++ 异步线程执行异步API，执行完后，将异步回调事件放入事件队列上
++ 主线程手上的同步任务干完后就来事件队列看看有没有任务
++ 主线程发现事件队列有任务，就取出里面的任务执行
++ 主线程不断循环上述流程
 
 引入微任务
-前面的流程图我为了便于理解，简化了事件队列，其实事件队列里面的事件还可以分两类：宏任务和微任务。
-微任务拥有更高的优先级，当事件循环遍历队列时，先检查微任务队列，如果里面有任务，就全部拿来执行，执行完之后再执行一个宏任务。
-执行每个宏任务之前都要检查下微任务队列是否有任务，如果有，优先执行微任务队列。
+前面的流程图我为了便于理解，简化了事件队列，其实事件队列里面的事件还可以分两类：宏任务和微任务。<br/>
+微任务拥有更高的优先级，当事件循环遍历队列时，先检查微任务队列，如果里面有任务，就全部拿来执行，执行完之后再执行一个宏任务。<br/>
+执行每个宏任务之前都要检查下微任务队列是否有任务，如果有，优先执行微任务队列。<br/>
 ![](image/micro-task.png)<br/>
 
-一个Event Loop可以有一个或多个事件队列，但是只有一个微任务队列。
-微任务队列全部执行完会重新渲染一次
-每个宏任务执行完都会重新渲染一次
-requestAnimationFrame处于渲染阶段，不在微任务队列，也不在宏任务队列
+一个Event Loop可以有一个或多个事件队列，但是只有一个微任务队列。 <br/>
+微任务队列全部执行完会重新渲染一次 <br/>
+每个宏任务执行完都会重新渲染一次 <br/>
+requestAnimationFrame处于渲染阶段，不在微任务队列，也不在宏任务队列 <br/>
 
 常见宏任务有：
-script (可以理解为外层同步代码)
-setTimeout/setInterval
-setImmediate(Node.js)
-I/O
-UI事件
-postMessage
++ script (可以理解为外层同步代码)
++ setTimeout/setInterval
++ setImmediate(Node.js)
++ I/O
++ UI事件
++ postMessage
 
 
 常见微任务有：
-Promise
-process.nextTick(Node.js)
-Object.observe
-MutaionObserver
++ Promise
++ process.nextTick(Node.js)
++ Object.observe
++ MutaionObserver
 
-5.安全
-跨站脚本攻击（XSS）
+5.安全 <br/>
+浏览器沙箱
+Google Chrome 是第一个采取多进程架构的浏览器，
+其主要进程分为：浏览器进程、渲染进程、插件进程、扩展进程。		
+插件进程如flash、java、pdf 等与浏览器进程严格隔离，互不影响。		
+渲染引擎由 Sandbox 隔离，网页代码要与浏览器内核进程通信、与操作系统通信都需要通过 IPC channel，
+在其中会进行一些安全检查。		
+Sandbox 目的：让不可信任的代码运行在一定的环境中，限制其访问隔离区外的资源，
+如果一定要跨域边界产生数据交换，则只能通过指定的数据通道，
+比如经过封装的 API 来完成，在这些 API 中会严格检查请求的合法性。
+
+
+跨站脚本攻击（XSS）<br/>
 http://www.a.com/test.php?param=<srcipt src="xss.js"></script>
 
-参数验证，不符合要求的数据不要存入数据库
-对特殊字符转义，如"<"、">"、"/"、"&"等
-避免使用eval、new Function动态执行字符串的方法
-避免使用 innerHTML、document.write 直接将字符串输出到HTML
-把一些敏感的 cookie 设置为 http only，避免前端访问 cookie
++ 反射型XSS(非持久型XSS)。
+XSS代码出现在URL中，攻击者需要将带有攻击脚本的URL发送给目标用户。
+用户点击访问后，在本地的浏览器解析执行了攻击代码。
++ 存储型XSS(持久型XSS)。
+存储型的XSS代码，会被存储在服务器端。当用户访问网页的时候，从服务器拿到攻击代码并执行。
 
-跨站请求伪造（CSRF）
+xss防御
++ 参数验证，不符合要求的数据不要存入数据库
++ 对特殊字符转义，如"<"、">"、"/"、"&"等
++ 避免使用eval、new Function动态执行字符串的方法
++ 避免使用 innerHTML、document.write 直接将字符串输出到HTML
++ 把一些敏感的 cookie 设置为 http only，避免前端访问 cookie
+
+跨站请求伪造（CSRF）<br/>
 F是网站A的用户，且已登录，网站A对用户F进行身份认证后下发了cookie，保存在F浏览器中。<br/>
 F访问网站B，网站B存在引诱点击（往往是个链接，指向网站A的API接口，通常是GET类型），然后访问了A网站，浏览器会自动上传cookie。<br/>
 网站A对传来的cookie进行确认，是合法用户，则执行接口的动作 <br/>
 
++ 通过设置sameSite-Strict属性，禁止第三方网站携带cookie。
++ 在正规网站的页面提交内容，可以设置验证码，或者是token。
++ 虽然第三方网站的跨站请求信息几乎和正规网站是一样的，但是还是有所不同。这个不同就是请求信息中的Referer字段，这个字段描述了请求的来源。
 
 
 6.跨域
@@ -635,51 +683,37 @@ postMessage。HTML5 的 postMessage 方法可用于两个页面之间通信，�
 
 
 7.缓存
-![](image/cache.png)
-强缓存
-Expires
-Cache-Control 
-协商缓存
-协商缓存的更新策略是不再指定缓存的有效时间，而是浏览器直接发送请求到服务端进行确认缓存是否更新，如果请求响应返回的 HTTP 状态为 304，则表示缓存仍然有效。
+![](image/cache.png) <br/>
+强缓存 <br/>  
++ Expires
++ Cache-Control 
 
-Last-Modified 和 If-Modified-Since
-Last-Modified 和 If-Modified-Since 对比资源最后修改时间来实现缓存。
+协商缓存  <br/>
+协商缓存的更新策略是不再指定缓存的有效时间，而是浏览器直接发送请求到服务端进行确认缓存是否更新，
+如果请求响应返回的 HTTP 状态为 304，则表示缓存仍然有效。<br/>
 
-浏览器第一次请求资源，服务端在返回资源的响应头上添加 Last-Modified 字段，值是资源在服务端的最后修改时间；
-浏览器再次请求资源，在请求头上添加 If-Modified-Since，值是上次服务端返回的最后修改时间；
-服务端收到请求，根据 If-Modified-Since 的值进行判断。若资源未修改过，则返回 304 状态码，并且不返回内容，浏览器使用缓存；否则返回资源内容，并更新 Last-Modified 的值；
-
-ETag 和 If-None-Match
-ETag 和 If-None-Match 对比资源哈希值，哈希值由资源内容计算得出，即依赖资源内容实现缓存。
-
-浏览器第一次请求资源，服务端在返回资源的响应头上添加 ETag 字段，值是资源的哈希值
-浏览器再次请求资源，在请求头上添加 If-None-Match，值是上次服务端返回的资源哈希值；
-服务端收到请求，根据 If-None-Match 的值进行判断。若资源内容没有变化，则返回 304 状态码，并且不返回内容，浏览器使用缓存；否则返回资源内容，并计算哈希值放到 ETag；
+Last-Modified 和 If-Modified-Since 对比资源最后修改时间来实现缓存。<br/>
+浏览器第一次请求资源，服务端在返回资源的响应头上添加 Last-Modified 字段，
+值是资源在服务端的最后修改时间；<br/>
+浏览器再次请求资源，在请求头上添加 If-Modified-Since，值是上次服务端返回的最后修改时间；<br/>
+服务端收到请求，根据 If-Modified-Since 的值进行判断。
+若资源未修改过，则返回 304 状态码，并且不返回内容，浏览器使用缓存；<br/>
+否则返回资源内容，并更新 Last-Modified 的值；<br/>
 
 
-+ url页面发生什么 https://blog.csdn.net/allenliu6/article/details/76609929  https://juejin.im/post/6844904083166347271
-async是赋予脚本异步属性，其特性如下：
+ETag 和 If-None-Match 对比资源哈希值，哈希值由资源内容计算得出，即依赖资源内容实现缓存。<br/>
+浏览器第一次请求资源，服务端在返回资源的响应头上添加 ETag 字段，值是资源的哈希值 <br/>
+浏览器再次请求资源，在请求头上添加 If-None-Match，值是上次服务端返回的资源哈希值；<br/>
+服务端收到请求，根据 If-None-Match 的值进行判断。<br/>
+若资源内容没有变化，则返回 304 状态码，并且不返回内容，浏览器使用缓存；<br/>
+否则返回资源内容，并计算哈希值放到 ETag；<br/>
 
-不等待其他脚本 js一旦下载好了就会执行
-与文档同时呈现 不能按序进行
-defer是赋予脚本延迟属性，其特性如下：
 
-在文档完全呈现后执行 不会阻塞页面的渲染和资源的加载
-自身按序进行 如果前后有依赖关系的js可以放心使用
-
-先讲一下规范里经典script的处理方法，总共三种情况：
-
-不使用async和defer，根据所在位置阻塞解析，被下载紧接着执行直到完成。
-
-使用async，不阻塞解析并行下载脚本，当下载完成后阻塞解析立即执行，在解析完成前后都可能被执行。
-
-使用defer，并行下载，并在页面完成解析时进行执行，不会阻塞解析
-
-二者下载都不会阻塞DOM解析，这点还是很重要的，首屏时间就是一切
-
-都是给外链脚本使用，不考虑请求数量而使用内联情况下等因素的首选方式
-
-都可以使用onload事件进行一系列处理
+8.url页面发生什么 
+https://blog.csdn.net/allenliu6/article/details/76609929  
+https://juejin.im/post/6844904083166347271
+使用async，文档的解析不会停止，其他线程将下载脚本，脚本下载完成后开始执行脚本，脚本执行的过程中文档将停止解析，直到脚本执行完毕。
+使用defer，文档的解析不会停止，其他线程将下载脚本，待到文档解析完成，脚本才会执行。
 
 // ----
 + 输入URL并敲下回车键
@@ -739,52 +773,84 @@ keep-alive: 如果客户端有keep-alive, 服务端也会有相应（如timeout 
 Server: 服务器的一些相关信息
 ```
 + 浏览器解析渲染页面
-解析HTML，构建DOM树（深度优先：即先构建当前节点的所有的子节点，再构建兄弟节点）；
-
-
-若在此过程遇到script标签，则会暂停DOM树的构建。
-
-
-解析CSS，生成CSS规则树；
-
-
-解析CSS规则的过程时JS将暂停执行，直到CSS规则树构建完成。
-
-
-合并DOM树和CSS规则，生成render树；
-
-
-精简CSS可加快CSS树的构建，从而加快页面响应速度。
-
-
-布局render树（layout/reflow【回流\重排】），负责各元素尺寸、位置计算；
-
-
-回流：由于DOM属性的改变（节点尺寸发生了变化，浏览器中受影响的部分失效），导致重新构建render树的过程；（回流必定导致重绘。）
-重绘：一个元素的外观发生改变，浏览器会根据元素的新属性重新绘制，使元素呈现新的外观（background, color, border-color ...）
-
-
-绘制render树（paint），绘制页面像素信息；
-浏览器将各层的信息发送给GPU，GPU将各层合成，显示在屏幕上；
+    + 解析HTML，构建DOM树（深度优先：即先构建当前节点的所有的子节点，再构建兄弟节点）；
+    + 若在此过程遇到script标签，则会暂停DOM树的构建。
+    + 解析CSS，生成CSS规则树；
+    + 解析CSS规则的过程时JS将暂停执行，直到CSS规则树构建完成。
+    + 合并DOM树和CSS规则，生成render树；
+    + 精简CSS可加快CSS树的构建，从而加快页面响应速度。
+    + 布局render树（layout/reflow【回流\重排】），负责各元素尺寸、位置计算；
+    + 绘制render树（paint），绘制页面像素信息；
+    + 浏览器将各层的信息发送给GPU，GPU将各层合成，显示在屏幕上；
 
 + TCP链接释放（4次挥手）
-TCP向服务端发送带有FIN（FINISH）标记报文，客户端进入FIN_WAIT_1状态（通知服务器端准备关闭）
-服务端接受通知，向客户端发送ACK报文，确认序号为收到的序号加1，和SYN一样，一个FIN报文将占用一个序号。（告诉浏览器，请求报文接受完毕。我准备关闭了，你也准备吧）服务器进入CLOSE_WAIT状态。
-服务器端发送FIN，用来关闭服务器到客户端的数据传输，服务器进入LAST_ACK状态。（告诉浏览器，响应报文发送完毕。你准备关闭吧。）
-客户端接受FIN报文，服务器进入TIME_WAIT状态，发送ACK包给服务器（ACK = b + 1, seq = a + 1）,服务器进入CLOSED状态。（告诉服务器响应报文接受完毕，准备关闭。）
+    + TCP向服务端发送带有FIN（FINISH）标记报文，客户端进入FIN_WAIT_1状态（通知服务器端准备关闭）
+    + 服务端接受通知，向客户端发送ACK报文，确认序号为收到的序号加1，和SYN一样，一个FIN报文将占用一个序号。（告诉浏览器，请求报文接受完毕。我准备关闭了，你也准备吧）服务器进入CLOSE_WAIT状态。
+    + 服务器端发送FIN，用来关闭服务器到客户端的数据传输，服务器进入LAST_ACK状态。（告诉浏览器，响应报文发送完毕。你准备关闭吧。）
+    + 客户端接受FIN报文，服务器进入TIME_WAIT状态，发送ACK包给服务器（ACK = b + 1, seq = a + 1）,服务器进入CLOSED状态。（告诉服务器响应报文接受完毕，准备关闭。）
 
-+ 浏览器组成
+9.浏览器组成
+![](image/browser.png)
 
 
-+ 浏览器渲染引擎 javascript引擎
-渲染 
+# 网络
+1.http https
+![](image/iso.png) <br/>
+非对称加密的特点<br/>
++ 任何经过A的公钥进行过加密的信息，只有A的私钥才能解密 <br/>
++ 任何有公钥的人可以确认对方发送的信息是被私钥加密过的
 
-# http https
-![](image/iso.png)
-+ tcp三次握手 4次挥手
+![](image/https.png)<br/>
++ 客户端 采用https协议 去访问服务端
++ 服务端 返回证书给客户端，证书里面有公钥 证书被Global Root CA签字认证过 ，
++ 客户端 拥有Global Root CA的公钥，会验证签字的证书
++ 客户端创建了一个随机密钥 用服务端发送的公钥进行加密了  发送给服务端 服务端可以利用自己的私钥去解密随机密钥
++ 现在 只有这个客户端和服务器端知道这个随机密钥了
++ 后续的通讯就是用这个生成的随机密钥进行对称加密
 
-+ udp
-+ tcp
+证书如何签证的？
+![](image/CA.png) <br/>
++ 服务器端 生成了公钥和密钥
++ CA 用私钥给 服务器端证书进行签证，任何拥有CA公钥的人就可以知道你的证书是被CA签证过的
+
+2.tcp三次握手 4次挥手
++ seq（消息序号）：第一次请求时，随机生成一个值,而后每次+1
++ ack（确认序号，注意是小写）：接收上一条信息的seq+1
++ ACK：确认序号有效。
++ SYN：发起一个新连接。
++ FIN：释放一个连接。
+
+![](image/tcp-3-hand.png)<br/>
+
+![](image/close-4-wave.png)<br/>
+
+三次握手，为什么？<br/>
+为了防止已失效的连接请求报文段突然又传送到了服务端，因而产生错误。
+client发出的第一个连接请求报文段并没有丢失，而是在某个网络结点长时间的滞留了，以致延误到连接释放以后的某个时间才到达server。
+本来这是一个早已失效的报文段。但server收到此失效的连接请求报文段后，就误认为是client再次发出的一个新的连接请求。
+于是就向client发出确认报文段，同意建立连接。
+假设不采用“三次握手”，那么只要server发出确认，新的连接就建立了。
+由于现在client并没有发出建立连接的请求，因此不会理睬server的确认，也不会向server发送数据。
+但server却以为新的连接已经建立，并一直等待client发来数据。
+这样，server的很多资源就白白浪费掉了。
+采用“三次握手”的办法可以防止上述现象发生<br/>
+
+四次分手，为什么？<br/>
+当A发出FIN报文时，只是表示A已经没有数据要发送了，并不意味着B不需要发送数据给Ａ了，这个时候A还是可以接收来自B的数据；
+当B返回ACK报文时，表示它已经知道A没有数据发送了，但是B还是可以发送数据到A的。
+所以2次分手是不可以的。当B不再需要向A发送数据时，向Ａ发送FIN报文，告诉A，我也没有数据要发送了，之后彼此就会中断这次TCP连接。
+
+
+2.udp
++ 面向无连接
++ 有单播，多播，广播的功能
++ 不可靠性
+
+3.tcp
++ 面向连接
++ 仅支持单播传输
++ 面向字节流
++ 可靠传输
 
 # BOM
 + event
@@ -800,33 +866,279 @@ TCP向服务端发送带有FIN（FINISH）标记报文，客户端进入FIN_WAIT
 + babel包
 
 # webpack
-+ source-map
-+ 包处理
-+ 手撕代码
-+ loader
-+ 优化
+1.source-map
++ eval：使用eval包裹模块代码
++ source map：产生.map文件
++ cheap：不包含列信息
++ inline：将.map作为DataURI嵌入，不单独生成.map文件
++ module：包含loader的sourcemap
+
+生产环境部署
++ Sentry ？ https://www.cnblogs.com/qiezuimh/p/11440506.html
++ hidden-source-map 源码不显示
++ SourceMapDevToolPlugin
+```javascript
+new webpack.SourceMapDevToolPlugin({
+  filename: "sourcemaps/[file].map",
+  publicPath: "https://example.com/project/",
+  fileContext: "public"
+})
+//https://example.com/project/sourcemaps/bundle-[hash].js.map`
+```
++ 插件
+SourceMapDevToolPlugin这个插件可以修改map文件的引用地址，
+同时借助filemanager-webpack-plugin将map文件移动到指定服务器，举个栗子是本地的话如下：
+```javascript
+const FileManagerPlugin = require('filemanager-webpack-plugin');
+// ...
+plugins: [
+  new webpack.SourceMapDevToolPlugin({
+      append: '\n//# sourceMappingURL=http://localhost:3000/sourceMap/[url]', //如果是保存到本地的话
+      filename: '[file].map',
+  }),
+  new FileManagerPlugin({
+     onEnd: {
+          copy: [{ 
+                 source: './dist/static/js/*.map', 
+                 destination: 'D:/sourceMap', // 本地服务器的文件路径
+           }],
+           delete: ['./dist/static/js/*.map'],//删除map文件
+           archive: [{ //压缩文件
+                source: './dist',
+                destination: './dist/static/dist.zip',
+           }]
+      }
+ })
+]
+
+```
+
+2.第三方包处理
++ dll
+dllplugin dllreferenceplugin
++ commonsplugin
+```javascript
+const vue = require('vue')
+{
+  entry: {
+   // bundle是我们要打包的项目文件的导出名字， app是入口js文件
+   bundle: 'app',
+   // vendor就是我们要打包的第三方库最终生成的文件名，数组里是要打包哪些第三方库, 如果不是在node——modules里面，可以填写库的具体地址
+   vendor: ['vue'],
+   jquery: ['jquery'],
+  },
+ output: {
+     path: __dirname + '/bulid/',
+	 // 文件名称
+	filename: '[name].js'
+ },
+  plugins: {
+    // 这里实例化webpack.optimize.CommonsChunkPlugin构造函数
+    // 打包之后就生成vendor.js文件
+    new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js')
+    new webpack.optimize.CommonsChunkPlugin('jquery',  'jquery.js')
+  }
+}
+```
+
+3.手撕代码
+```javascript
+const fs = require("fs");
+const path = require("path");
+const babylon = require("@babel/parser");
+const traverse = require("@babel/traverse").default;
+const babel = require("@babel/core");
+
+
+let ID = 0;
+//读取文件信息，并获得当前js文件的依赖关系
+function createAsset(filename) {
+    //获取文件，返回值是字符串
+    const content = fs.readFileSync(filename, "utf-8");
+
+    //讲字符串为ast（抽象语法树， 这个是编译原理的知识，说得简单一点就是，可以把js文件里的代码抽象成一个对象，代码的信息会存在对象中）
+    //babylon 这个工具是是负责解析字符串并生产ast。
+    const ast = babylon.parse(content, {
+        sourceType: "module"
+    });
+
+    //用来存储 文件所依赖的模块，简单来说就是，当前js文件 import 了哪些文件，都会保存在这个数组里
+    const dependencies = [];
+
+    //遍历当前ast（抽象语法树）
+    traverse(ast, {
+        //找到有 import语法 的对应节点
+        ImportDeclaration: ({ node }) => {
+            //把当前依赖的模块加入到数组中，其实这存的是字符串，
+            //例如 如果当前js文件 有一句 import message from './message.js'，
+            //'./message.js' === node.source.value
+            dependencies.push(node.source.value);
+        }
+    });
+
+    //模块的id 从0开始， 相当一个js文件 可以看成一个模块
+    const id = ID++;
+
+    //这边主要把ES6 的代码转成 ES5
+    const { code } = babel.transformFromAstSync(ast, null, {
+        presets: ["@babel/preset-env"]
+    });
+
+    return {
+        id,
+        filename,
+        dependencies,
+        code
+    };
+}
+
+//从入口开始分析所有依赖项，形成依赖图，采用广度遍历
+function createGraph(entry) {
+    const mainAsset = createAsset(entry);
+
+    //既然要广度遍历肯定要有一个队列，第一个元素肯定是 从 "./example/entry.js" 返回的信息
+    const queue = [mainAsset];
+
+
+    for (const asset of queue) {
+        const dirname = path.dirname(asset.filename);
+
+        //新增一个属性来保存子依赖项的数据
+        //保存类似 这样的数据结构 --->  {"./message.js" : 1}
+        asset.mapping = {};
+
+        asset.dependencies.forEach(relativePath => {
+            const absolutePath = path.join(dirname, relativePath);
+
+            //获得子依赖（子模块）的依赖项、代码、模块id，文件名
+            const child = createAsset(absolutePath);
+
+            //给子依赖项赋值，
+            asset.mapping[relativePath] = child.id;
+
+            //将子依赖也加入队列中，广度遍历
+            queue.push(child);
+        });
+    }
+    return queue;
+}
+
+//根据生成的依赖关系图，生成对应环境能执行的代码，目前是生产浏览器可以执行的
+function bundle(graph) {
+    let modules = "";
+
+    //循环依赖关系，并把每个模块中的代码存在function作用域里
+    graph.forEach(mod => {
+        modules += `${mod.id}:[
+      function (require, module, exports){
+        ${mod.code}
+      },
+      ${JSON.stringify(mod.mapping)},
+    ],`;
+    });
+
+    //require, module, exports 是 cjs的标准不能再浏览器中直接使用，所以这里模拟cjs模块加载，执行，导出操作。
+    const result = `
+    (function(modules){
+      //创建require函数， 它接受一个模块ID（这个模块id是数字0，1，2） ，它会在我们上面定义 modules 中找到对应是模块.
+      function require(id){
+        const [fn, mapping] = modules[id];
+        function localRequire(relativePath){
+          //根据模块的路径在mapping中找到对应的模块id
+          return require(mapping[relativePath]);
+        }
+        const module = {exports:{}};
+        //执行每个模块的代码。
+        fn(localRequire,module,module.exports);
+        return module.exports;
+      }
+      //执行入口文件，
+      require(0);
+    })({${modules}})
+  `;
+
+    return result;
+}
+
+const graph = createGraph("./example/entry.js");
+const ret = bundle(graph);
+
+// 打包生成文件
+fs.writeFileSync("./bundle.js", ret);
+```
+4.loader && plugin
++ babel-loader cacheDirectory:true
++ less-loader css-loader style-loader mini-css-extract-plugin(生产环境单独提出) optimize-css-assets-webpack-plugin(生产环境压缩)
++ html-loader
++ url-loader esmodule=fasle html-loader 解析
++ file-loader
++ html-webpack-plugin
++ dllplugin dllreferenceplugin
++ happypack
++ service work pwa workbox-webpack-plugin
+```javascript
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then(() => {
+        console.log('sw注册成功了~');
+      })
+      .catch(() => {
+        console.log('sw注册失败了~');
+      });
+  });
+}
+
+//----
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+
+new WorkboxWebpackPlugin.GenerateSW({
+  /*
+    1. 帮助serviceworker快速启动
+    2. 删除旧的 serviceworker
+
+    生成一个 serviceworker 配置文件~
+  */
+  clientsClaim: true,
+  skipWaiting: true
+})
+```
+
+5.优化
+代码优化
++ 路由懒加载
++ 图片资源懒加载
++ 组件懒加载
+打包优化
+
 + eslint
+fix
 
 # vue
-+ 响应式
+1.响应式
 在$mont()的时候，会创建Watcher实例的过程，把Dep.target设置为当前Watcher，
 然后会开始render，render的时候就会读取到响应数据，从而触发get，只有被观察的数据才配置了get，get执行过程中会创建一个Dep实例，
 此时有了Watcher和Dep，他们会建立关系。他们建立关系之后，当一旦被观察的数据发生改变，就会触发set，set调用dep.notify(),
 dep则会让跟他有关系的Watcher进行更新。
 被观察的数据更改会导致组件进行更新从而影响到dom的改变。这个被观察的数据就是响应数据，而这个get的过程我们叫做依赖收集。
 
-+ key
+2.key
 key会用在虚拟DOM算法（diff算法）中，用来辨别新旧节点。
 不带key的时候会最大限度减少元素的变动，尽可能用相同元素。（就地复用）
 带key的时候，会基于相同的key来进行排列。（相同的复用）
 带key还能触发过渡效果，以及触发组件的生命周期
 
 
-+ 观察者
-+ vdom
+3.观察者
+4.vdom
 
 
-+ diff
+5.diff
+Diff 的比较逻辑<br/>
++ 能不移动，尽量不移动
++ 没得办法，只好移动
++ 实在不行，新建或删除  <br/>
 https://juejin.im/post/6844903938102149134
 
 + vue3
@@ -836,7 +1148,7 @@ window.addEventListener('hashchange'，e=>{}）
 window.addEventListener('popstate',e=>{})
 
 # css
-+ 居中
+1.居中
 水平
 ```css
 .parent4 {
@@ -913,28 +1225,204 @@ window.addEventListener('popstate',e=>{})
 }
 ```
 
+2.多列等高
+```html
+ <ul class="Article">
+    <li class="js-article-item">
+      <p>
+      一家将客户利益置于首位的经纪商，
+      为客户提供专业的交易工具一家将客户利益置于首位的经纪商，
+      为客户提供专业的交易工具一家将客户利益置于首位的经纪商，
+      为客户提供专业的交易工具一家将客户利益置于首位的经纪商，为客户提供专业的交易工具
+      </p>
+    </li>
+    <li class="js-article-item">
+      <p>一家将客户利益置于首位的经纪商，为客户提供专业的交易工具
+      一家将客户利益置于首位的经纪商，为客户提供专业的交易工具</p>
+    </li>
+    <li class="js-article-item">
+      <p>一家将客户利益置于首位的经纪商</p>
+    </li>
+  </ul>
 
-+ flex
+
+
+//-----
+
+.Article {
+  overflow: hidden;
+}
+
+.Article>li {
+  float: left;
+  margin: 0 10px -9999px 0;
+  padding-bottom: 9999px;
+  background: #4577dc;
+  width: 200px;
+  color: #fff;
+}
+
+.Article>li>p {
+  padding: 10px;
+}
+
+// -----
+.Article {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.Article>li {
+  display: table-cell;
+  width: 200px;
+  border-left: solid 5px currentColor;
+  border-right: solid 5px currentColor;
+  color: #fff;
+  background: #4577dc;
+}
+
+.Article>li>p {
+  padding: 10px;
+}
+
+
+//----
+.Article {
+  display: flex;
+}
+
+.Article>li {
+  flex: 1;
+  border-left: solid 5px currentColor;
+  border-right: solid 5px currentColor;
+  color: #fff;
+  background: #4577dc;
+}
+
+.Article>li>p {
+  padding: 10px;
+}
+```
+
+3.宽高比
++ padding-bottom
+
+4.flex
 ![](image/flex.png)<br/>
-flex-direction
-flex-wrap
-flex-flow
-justify-content
-align-items
-align-content
++ flex-direction
++ flex-wrap
++ flex-flow
++ justify-content 主轴对其方式
++ align-items 交叉轴对齐方式
++ align-content 多行轴线对齐
+
+5.CSS中的三种布局模型<br/>
+流动模型（Flow）、浮动模型（Float）、层模型（Layer）<br/>
 
 
 
-+ BFC https://blog.csdn.net/dff1993/article/details/80394150
-+ 适配
-rem
-+ css3
-+ 兼容性问题
+6.BFC https://blog.csdn.net/dff1993/article/details/80394150<br/>
+BFC 即 Block Formatting Contexts (块级格式化上下文)，它属于流动模型<br/>
+具有BFC特性的元素可以看做是隔离了的独立容器，容器里面的元素不会在布局上影响到外面的元素<br/>
 
-+ 优先级
+形成BFC的条件<br/>
++ body 根元素
++ 浮动元素：float 除 none 以外的值
++ 绝对定位元素：position (absolute、fixed)
++ display 为 inline-block、table-cells、flex
++ overflow 除了 visible 以外的值 (hidden、auto、scroll)
+
+BFC常见作用<br/>
++ 阻止外边距折叠 
+margin塌陷问题：在标准文档流中，块级标签之间竖直方向的margin会以大的为准，这就是margin的塌陷现象。
+可以用overflow：hidden产生bfc来解决
++ 高度塌陷问题
+在通常情况下父元素的高度会被子元素撑开，而在这里因为其子元素为浮动元素所以父元素发生了高度坍塌，上下边界重合，这时就可以用BFC来清除浮动了
++ 阻止元素被浮动元素覆盖
+div浮动兄弟这该问题：由于左侧块级元素发生了浮动，所以和右侧未发生浮动的块级元素不在同一层内，所以会发生div遮挡问题。
+可以给右侧元素添加 overflow: hidden，触发BFC来解决遮挡问题
+
+7.适配
+rem<br/>
+html font-size= width/72    1个rem 10px
+
+8.Doctype作用?严格模式与混杂模式如何区分？它们有何意义?<br/>
+Doctype声明于文档最前面，告诉浏览器以何种方式来渲染页面，这里有两种模式，严格模式和混杂模式。
++ 严格模式的排版和JS 运作模式是 以该浏览器支持的最高标准运行。
++ 混杂模式，向后兼容，模拟老式浏览器，防止浏览器无法兼容页面。
+
+9.link标签和import标签的区别
+link属于html标签，而@import是css提供的<br/>
++ 页面被加载时，link会同时被加载，而@import引用的css会等到页面加载结束后加载。
++ link是html标签，因此没有兼容性，而@import只有IE5以上才能识别。
++ link方式样式的权重高于@import的。
+
+10.CSS权重
++ !important: 无穷大
++ 内联样式: 1000
++ ID: 100
++ 类、伪类、属性: 10
++ 元素、伪元素: 1
++ 通配符: 0
+```
+style=""                    => 1000(一个行内样式)
+#title{}                    => 100(一个ID选择器)
+.root                       => 10(一个类)
+[title]                     => 10(一个属性)
+div                         => 1(一个元素)
+*{}                         => 0(通配符)
+div span {}                 => 1+1=2(两个元素)
+div h1+span {}              => 1+1+1=2(三个元素)
+div:first-child             => 1+10=11(一个元素，一个伪类)
+div [title]                 => 1+10=11(一个元素，一个属性选择器)
+body #title .root p {}      => 112(1+100+10+1，两个元素，一个Id选择器，一个类)
+```
+
+11.页面加载触发的事件<br/>
++ document的readystatechange事件
+```javascript
+document.onreadystatechange = function() { // 文档加载状态改变事件处理
+    if (document.readyState === "loading") { // document加载中
+        console.log(document.readyState);
+    }
+    if (document.readyState === "interactive") { // 互动文档加载完成，文档解析完成，但是如图像，样式表和框架等子资源仍在加载中
+        console.log(document.readyState);
+    }
+    if (document.readyState === "complete") { // 文档和所有子资源加载完成，load事件即将被触发
+        console.log(document.readyState);
+    }
+}
+```
+
++ document的DOMContentLoaded事件
+DOM树渲染完成时候触发DOMContentLoaded事件，此时可能外部资源还在加载。jQuery中的ready事件就是实现的这个事件。
+
++ window的load事件
+当所有的资源全部加载完成后就会触发window的load事件
 
 
-+ 固定宽高比
+12.css3<br/>
+13.兼容性问题<br/>
+CSS HACK的方法<br/>
++ IE6 专用 _height: 100px;
++ IE7 专用 *+height: 100px;
++ IE6、IE7 共用 *height: 100px;
++ IE7、FF 共用 height: 100px !important; 
+使用IE专用的条件注释 
+```html
+<!--其他浏览器 --> 
+<link rel="stylesheet" type="text/css" href="css.css" /> 
+ <!--[if IE 7]> 
+ <!-- 适合于IE7 --> 
+ <link rel="stylesheet" type="text/css" href="ie7.css" /> 
+ <![endif]--> 
+ <!--[if lte IE 6]> 
+ <!-- 适合于IE6及以下 --> 
+ <link rel="stylesheet" type="text/css" href="ie.css" /> 
+ <![endif]--> 
+```
+
 
 
 # html5
@@ -966,5 +1454,15 @@ A:
 
 
 Q: Docker远程访问
+
+Q: 前后端分离
+rbac token 返回数据规范 请求封装 表单数据获取 分页
+
+Q: 开发流程定制
+gitlab 面板
+
+Q: webpack
+鸡肋 感觉 以后会有东西 替代它
+
 
 
