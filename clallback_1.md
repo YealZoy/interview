@@ -1464,5 +1464,9 @@ gitlab 面板
 Q: webpack
 鸡肋 感觉 以后会有东西 替代它
 
+Q: angular
+模块分的很细 难以理解 有moudle  这个moudle需要配置吗？
+注解 rsjx 很多东西 表面  只能用 如果看源码 可能还要付出更多的时间
+
 
 
