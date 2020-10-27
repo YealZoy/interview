@@ -324,7 +324,6 @@ sub.add(obs2)
 sub.notify() // I`m obs1   I`m obs2
 sub.remove(obs2)
 sub.notify()  //I`m obs1
-
 ```
 
 
@@ -466,6 +465,58 @@ let object = {
 + constructor
 
 20.object
+
+21.ajax
+```javascript
+function ajax(method, url, data,fn) { //封装为方法
+　　let htp = null; //定义个变量
+　　//判断兼容低版本ie
+　　try {
+　　　　htp = new XMLHttpRequest()
+　　}
+　　catch (err) {
+　　　　htp = new ActiveXObject("Microsoft.XMLHTTP")
+　　}
+　　//判断使用get方法传输还是用posh方法传输
+　　if (method == "get") {
+　　　　htp.open(method, url +"?"+ data);
+　　　　htp.send()
+　　} else {
+　　　　htp.open(method, url);
+　　　　htp.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+　　　　htp.send(data)
+　　　　}
+　　//监听交互事件
+　　htp.onreadystatechange = function () {
+　　//判断传输是否成功
+　　　　if (htp.readyState == 4 && htp.status == 200) {
+　　　　　　fn(htp.responseText)
+　　　　}
+　　}
+}
+
+postData('http://example.com/answer', {answer: 42})
+  .then(data => console.log(data)) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+
+function postData(url, data) {
+  // Default options are marked with *
+  return fetch(url, {
+    body: JSON.stringify(data), // must match 'Content-Type' header
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, same-origin, *omit
+    headers: {
+      'user-agent': 'Mozilla/4.0 MDN Example',
+      'content-type': 'application/json'
+    },
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, cors, *same-origin
+    redirect: 'follow', // manual, *follow, error
+    referrer: 'no-referrer', // *client, no-referrer
+  })
+  .then(response => response.json()) // parses response to JSON
+}
+```
 
 
 # 浏览器
@@ -840,13 +891,71 @@ client发出的第一个连接请求报文段并没有丢失，而是在某个�
 当B返回ACK报文时，表示它已经知道A没有数据发送了，但是B还是可以发送数据到A的。
 所以2次分手是不可以的。当B不再需要向A发送数据时，向Ａ发送FIN报文，告诉A，我也没有数据要发送了，之后彼此就会中断这次TCP连接。
 
+3.http1.0 http1.1 http2.0特性及区别
 
-2.udp
+http/1 :<br/>
+HTTP 1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，
+服务器不跟踪每个客户也不记录过去的请求。<br/>
+一般PC端浏览器会针对单个域名的server同时建立6～8个连接，手机端的连接数则一般控制在4～6个<br/>
+
+http 1.1 :<br/>
+HTTP 1.1支持持久连接<br/>
+在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟。<br/>
+HTTP 1.1还允许客户端不用等待上一次请求结果返回，就可以发出下一次请求，
+但服务器端必须按照接收到客户端请求的先后顺序依次回送响应结果，<br/>
+在http1.1，request和reponse头中都有可能出现一个connection的头，此header的含义是当client和server通信时对于长链接如何进行处理。<br/>
+
+HTTP 1.1状态代码及其含义<br/>
++ 1xx：指示信息--表示请求已接收，继续处理
++ 2xx：成功--表示请求已被成功接收、理解、接受
++ 3xx：重定向--要完成请求必须进行更进一步的操作
++ 4xx：客户端错误--请求有语法错误或请求无法实现
++ 5xx：服务器端错误--服务器未能实现合法的请求
+
+
+
+
+http/2 :<br/>
++ 多路复用，一个Tcp中多个http请求是并行的
++ 二进制格式编码传输
++ header压缩
++ 服务端推送
+
+![](image/http.png)
+
+![](image/http1.1.png)
+
+
+
+4.简单讲解一下http2的多路复用
+简单来说， 就是在同一个TCP连接，同一时刻可以传输多个HTTP请求。
+之前是同一个连接只能用一次， 如果开启了keep-alive，虽然可以用多次，但是同一时刻只能有一个HTTP请求
+
+5.A、B 机器正常连接后，B 机器突然重启，问 A 此时处于 TCP 什么状态
+A侧的TCP链路状态在未发送任何数据的情况下与等待的时间相关，如果在多个超时值范围以内那么状态为<established>;
+如果触发了某一个超时的情况那么视情况的不同会有不同的改变。
+
+一般情况下不管是KeepAlive超时还是内核超时，只要出现超时，那么必然会抛出异常，只是这个异常截获的时机会因编码方式的差异而有所不同。
+（同步异步IO，以及有无使用select、poll、epoll等IO多路复用机制）
+
+6.介绍下 HTTPS 中间人攻击
++ 服务器向客户端发送公钥。
++ 攻击者截获公钥，保留在自己手上。
++ 然后攻击者自己生成一个【伪造的】公钥，发给客户端。
++ 客户端收到伪造的公钥后，生成加密hash值发给服务器。
++ 攻击者获得加密hash值，用自己的私钥解密获得真秘钥。
++ 同时生成假的加密hash值，发给服务器。
++ 服务器用私钥解密获得假秘钥。
++ 服务器用加秘钥加密传输信息
+
+防范方法：服务端在发送浏览器的公钥中加入CA证书，浏览器可以验证CA证书的有效性
+
+7.udp
 + 面向无连接
 + 有单播，多播，广播的功能
 + 不可靠性
 
-3.tcp
+8.tcp
 + 面向连接
 + 仅支持单播传输
 + 面向字节流
@@ -1123,15 +1232,22 @@ fix
 dep则会让跟他有关系的Watcher进行更新。
 被观察的数据更改会导致组件进行更新从而影响到dom的改变。这个被观察的数据就是响应数据，而这个get的过程我们叫做依赖收集。
 
-2.key
+2.key https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/1
 key会用在虚拟DOM算法（diff算法）中，用来辨别新旧节点。
 不带key的时候会最大限度减少元素的变动，尽可能用相同元素。（就地复用）
 带key的时候，会基于相同的key来进行排列。（相同的复用）
 带key还能触发过渡效果，以及触发组件的生命周期
 
+从以上来看，不带有key，并且使用简单的模板，基于这个前提下，可以更有效的复用节点，diff速度来看也是不带key更加快速的，因为带key在增删节点上有耗时。
+这就是vue文档所说的默认模式。但是这个并不是key作用，而是没有key的情况下可以对节点就地复用，提高性能。
+这种模式会带来一些隐藏的副作用，比如可能不会产生过渡效果，或者在某些节点有绑定数据（表单）状态，会出现状态错位。
+VUE文档也说明了 这个默认的模式是高效的，但是只适用于不依赖子组件状态或临时 DOM 状态 (例如：表单输入值) 的列表渲染输出
+
 
 3.观察者
+
 4.vdom
+
 
 
 5.diff
@@ -1141,9 +1257,13 @@ Diff 的比较逻辑<br/>
 + 实在不行，新建或删除  <br/>
 https://juejin.im/post/6844903938102149134
 
-6.说说 Vue 的渲染过程
+6.说说 Vue 的渲染过程<br/>
+![](image/vue-render.png)
 
 7.异步组件
+注册异步组件，和注册普通组件差不太多。既可以全局注册，也可以局部注册。不过不同的是异步组件需要通过webpack的import函数来引入<br/>
+
+
 
 
 8.watcher和immdiate
@@ -1170,11 +1290,107 @@ watch:{
 }
 ```
 
-+ vue3
+9.vue3
 
-+ vue-router
+10.vue-router
 window.addEventListener('hashchange'，e=>{}）
 window.addEventListener('popstate',e=>{})
+
+11.在 Vue 中，子组件为何不可以修改父组件传递的 Prop，如果修改了，Vue 是如何监控到属性的修改并给出警告的<br/>
+为何不能修改：为了保证数据的单向流动，便于对数据进行追踪，避免数据混乱<br/>
+所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定：
+父级 prop 的更新会向下流动到子组件中，但是反过来则不行。
+这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。<br/>
+
+在组件 initProps 方法的时候，会对props进行defineReactive操作，传入的第四个参数是自定义的set函数，该函数会在触发props的set方法时执行，
+当props修改了，就会运行这里传入的第四个参数，然后进行判断，如果不是root根组件，并且不是更新子组件，那么说明更新的是props，所以会警告<br/>
+
+
+12.双向绑定和 vuex 是否冲突 <br/>
+在严格模式中使用Vuex，当用户输入时，v-model会试图直接修改属性值，但这个修改不是在mutation中修改的，
+所以会抛出一个错误。当需要在组件中使用vuex中的state时，
+```
+<input v-model="message">
+// ...
+computed: {
+  message: {
+    get () {
+      return this.$store.state.obj.message
+    },
+    set (value) {
+      this.$store.commit('updateMessage', value)
+    }
+  }
+}
+
+//...
+mutations: {
+  updateMessage (state, message) {
+    state.obj.message = message
+  }
+}
+```
+
+13.Vue 的父组件和子组件生命周期钩子执行顺序是什么<br/>
++ 父组建： beforeCreate -> created -> beforeMount
++ 子组件： -> beforeCreate -> created -> beforeMount -> mounted
++ 父组件： -> mounted
++ 总结：从外到内，再从内到外
+
+//
+
++ 加载渲染过程  
+父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
++ 子组件更新过程  
+父beforeUpdate->子beforeUpdate->子updated->父updated
++ 父组件更新过程  
+父beforeUpdate->父updated
++ 销毁过程  
+父beforeDestroy->子beforeDestroy->子destroyed->父destroyed
+
+14.vue 如何优化首页的加载速度？vue 首页白屏是什么问题引起的？如何解决呢？
+首页白屏的原因：<br/>
+单页面应用的 html 是靠 js 生成，因为首屏需要加载很大的js文件(app.js vendor.js)，所以当网速差的时候会产生一定程度的白屏<br/>
+
+解决办法：<br/>
++ 优化 webpack 减少模块打包体积，code-split 按需加载
++ 服务端渲染，在服务端事先拼装好首页所需的 html
++ 首页加 loading 或 骨架屏 （仅仅是优化体验）
+
+15.谈一谈 nextTick 的原理
+```
+<template>
+  <div>
+    <div>{{number}}</div>
+    <div @click="handleClick">click</div>
+  </div>
+</template>
+export default {
+    data () {
+        return {
+            number: 0
+        };
+    },
+    methods: {
+        handleClick () {
+            for(let i = 0; i < 1000; i++) {
+                this.number++;
+            }
+        }
+    }
+}
+```
+
+16.异步更新队列<br/>
+Vue 在更新 DOM 时是异步执行的。
+只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。
+如果同一个 watcher 被多次触发，只会被推入到队列中一次。
+这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。
+然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。
+Vue 在内部对异步队列尝试使用原生的 Promise.then、MutationObserver 和 setImmediate，
+如果执行环境不支持，则会采用 setTimeout(fn, 0) 代替。
+
+
 
 # css
 1.居中
@@ -1473,6 +1689,23 @@ A: publicPath的使用说法适用于生产环境,
 Webpack 会把所有的文件打包到publicPath指定的目录下，
 就是相当于在项目根目录下创建了一个publicPath目录, 然后把打包成的文件放到了它里面，只不过我们看不到而已, 
 文件名还是output配置中的filename。
+
+Q: 打包之后文件过大
+A: 后来采用的dllplugin
+
+Q: source-map的配置与解决 生产环境
+A:  nginx server allow
+
+Q: 以前尝试过通过子组件修改父组件的数据，后来自己凌乱了，
+A: 单向数据流
+
+Q: 异步组件 加载失败 路径原因 webpack import 异步ajax请求
+A: 不能动态解析加载
+
+Q: slot传值
+
+
+
 
 Q: 坐标系的理解，各个坐标系 之间的不同 
 A:
