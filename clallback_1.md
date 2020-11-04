@@ -518,6 +518,87 @@ function postData(url, data) {
 }
 ```
 
+22.下面的代码打印什么内容，为什么？
+```javascript
+var b = 10;
+(function b(){
+    b = 20;
+    console.log(b); 
+})();
+
+// -----------
+
+var b = 10;
+(function b() {
+   // 内部作用域，会先去查找是有已有变量b的声明，有就直接赋值20，确实有了呀。发现了具名函数 function b(){}，拿此b做赋值；
+   // IIFE的函数无法进行赋值（内部机制，类似const定义的常量），所以无效。
+  // （这里说的“内部机制”，想搞清楚，需要去查阅一些资料，弄明白IIFE在JS引擎的工作方式，堆栈存储IIFE的方式等）
+    b = 20;
+    console.log(b); // [Function b]
+    console.log(window.b); // 10，不是20
+})();
+
+
+//所以严格模式下能看到错误：Uncaught TypeError: Assignment to constant variable
+var b = 10;
+(function b() {
+  'use strict'
+  b = 20;
+  console.log(b)
+})() // "Uncaught TypeError: Assignment to constant variable."
+
+
+//其他情况例子：
+//有window：
+
+var b = 10;
+(function b() {
+    window.b = 20; 
+    console.log(b); // [Function b]
+    console.log(window.b); // 20是必然的
+})();
+
+//有var:
+var b = 10;
+(function b() {
+    var b = 20; // IIFE内部变量
+    console.log(b); // 20
+   console.log(window.b); // 10 
+})();
+```
+
+
+23.输出以下代码运行结果
++ 对象的键名只能是字符串和 Symbol 类型。
++ 其他类型的键名会被转换成字符串类型。
++ 对象转字符串默认会调用 toString 方法。
+```javascript
+
+// example 1
+var a={}, b='123', c=123;  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+
+
+// example 2
+var a={}, b=Symbol('123'), c=Symbol('123');  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+
+
+// example 3
+var a={}, b={key:'123'}, c={key:'456'};  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+```
+ 
+24.input 搜索如何防抖，如何处理中文输入
+onCompositionStart
+onCompositionStart
+
 
 # 浏览器
 1.js内存 <br/>
