@@ -117,7 +117,7 @@ function throolte(func,delay) {
   }
 }
 ```
-6.promise
+6.promise https://juejin.im/post/6844903815682998286#heading-18<br/>
 + promise 有 3 种状态：pending、fulfilled 或 rejected。
 状态改变只能是 pending->fulfilled 或者 pending->rejected，状态一旦改变则不能再变
 + Promise.then() 之后返回的是一个新的promise
@@ -1471,6 +1471,17 @@ Vue 在更新 DOM 时是异步执行的。
 Vue 在内部对异步队列尝试使用原生的 Promise.then、MutationObserver 和 setImmediate，
 如果执行环境不支持，则会采用 setTimeout(fn, 0) 代替。
 
+17.vue源码图
+![](image/entry.fd620404.png)
+
+
+18.Vue2与Vue3的对比
+对TypeScript支持不友好（所有属性都放在了this对象上，难以推倒组件的数据类型）
+大量的API挂载在Vue对象的原型上，难以实现TreeShaking。
+架构层面对跨平台dom渲染开发支持不友好
+CompositionAPI。受ReactHook启发
+对虚拟DOM进行了重写、对模板的编译进行了优化操作...
+
 
 
 # css
@@ -1758,6 +1769,223 @@ CSS HACK的方法<br/>
 
 
 # 算法
+1.快速排序
+```javascript
+function quickSort(arr, left, right) {
+    varlen = arr.length,
+        partitionIndex,
+        left = typeofleft != 'number'? 0 : left,
+        right = typeofright != 'number'? len - 1 : right;
+ 
+    if(left < right) {
+        partitionIndex = partition(arr, left, right);
+        quickSort(arr, left, partitionIndex-1);
+        quickSort(arr, partitionIndex+1, right);
+    }
+    returnarr;
+}
+ 
+function partition(arr, left ,right) {     // 分区操作
+    varpivot = left,                      // 设定基准值（pivot）
+        index = pivot + 1;
+    for(vari = index; i <= right; i++) {
+        if(arr[i] < arr[pivot]) {
+            swap(arr, i, index);
+            index++;
+        }       
+    }
+    swap(arr, pivot, index - 1);
+    returnindex-1;
+}
+ 
+function swap(arr, i, j) {
+    vartemp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+```
+
+
+2.冒泡
+```javascript
+function bubbleSort(arr) {
+    varlen = arr.length;
+    for(vari = 0; i < len - 1; i++) {
+        for(varj = 0; j < len - 1 - i; j++) {
+            if(arr[j] > arr[j+1]) {        // 相邻元素两两对比
+                vartemp = arr[j+1];        // 元素交换
+                arr[j+1] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+    returnarr;
+}
+```
+
+3.选择
+```javascript
+function selectionSort(arr) {
+    varlen = arr.length;
+    varminIndex, temp;
+    for(vari = 0; i < len - 1; i++) {
+        minIndex = i;
+        for(varj = i + 1; j < len; j++) {
+            if(arr[j] < arr[minIndex]) {     // 寻找最小的数
+                minIndex = j;                 // 将最小数的索引保存
+            }
+        }
+        temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
+    }
+    returnarr;
+} 
+```
+
+4.插入
+```javascript
+function insertionSort(arr) {
+    varlen = arr.length;
+    varpreIndex, current;
+    for(vari = 1; i < len; i++) {
+        preIndex = i - 1;
+        current = arr[i];
+        while(preIndex >= 0 && arr[preIndex] > current) {
+            arr[preIndex + 1] = arr[preIndex];
+            preIndex--;
+        }
+        arr[preIndex + 1] = current;
+    }
+    returnarr;
+}
+```
+
+5.二叉树遍历
+```javascript
+var root = {  
+   id: 1,  
+   
+    left: {
+        id: 2,
+        left: {
+            id: 4,
+        },
+        right:{
+            id:5
+        }
+    },
+    right: {
+        id: 3,
+        left: {
+            id: 6
+        },
+        right: {
+            id: 7
+        }
+    }
+}
+
+
+// 先序
+var res = []  
+
+function DLR(root) {  
+
+  if(root != null) {
+      res.push(root.id)
+      if(root.left) {
+          DLR(root.left)
+      }
+      if(root.right) {
+          DLR(root.right)
+      }
+  }
+  return res
+}  
+
+
+// 中序
+var res = []  
+
+function LDR(root) {  
+
+    if(root != null) {
+        if(root.left) {
+            LDR(root.left)
+        }
+        res.push(root.id)
+        if(root.right) {
+            LDR(root.right)
+        }
+    }
+    return res
+}  
+
+//后序
+var res = []  
+
+function LRD(root) {  
+
+    if(root != null) {
+        if(root.left) {
+            LRD(root.left)
+        }
+        if(root.right) {
+            LRD(root.right)
+        }
+        res.push(root.id)
+    }
+    return res
+}  
+```
+
+6.二叉树重建
+根据二叉树的前序遍历{1,2,4,7,3,5,6,8}和中序遍历{4,7,2,1,5,3,8,6}，重新构建二叉树。
+```javascript
+function reConstructBinaryTree(pre, vin) {
+    if (!pre || pre.length === 0) {
+        return;
+    }
+    var treeNode = {
+        root: pre[0]
+    }
+    for(var i = 0; i < pre.length; i++) {
+        if (vin[i] === pre[0]) {
+            // left递归体中的两个参数，是前序变量的左子树和终须变量的左子树
+            treeNode.left = reConstructBinaryTree(pre.slice(1, i+1), vin.slice(0, i));
+            // right递归体中的两个参数，是前序变量的右子树和终须变量的右子树
+            // 因为第i个是根节点，需要跳过
+            treeNode.right = reConstructBinaryTree(pre.slice(i+1),vin.slice(i+1));
+        }
+    }
+    return treeNode;
+    console.log(treeNode)
+}
+
+//如果给定中序遍历和后序遍历，同样可以重建二叉树
+function reConstructBinaryTree(vin, pos) {
+    if (!pos || pos.length === 0) {
+        return;
+    }
+    var treeNode = {
+        root: pos[pos.length-1]
+    }
+    for(var i = 0; i < pos.length; i++) {
+        if (vin[i] === pos[pos.length-1]) {
+            // left递归体中的两个参数，是前序变量的左子树和终须变量的左子树
+            treeNode.left = reConstructBinaryTree(pre.slice(1, i+1), vin.slice(0, i));
+            // right递归体中的两个参数，是前序变量的右子树和终须变量的右子树
+            // 因为第i个是根节点，需要跳过
+            treeNode.right = reConstructBinaryTree(pre.slice(i+1),vin.slice(i+1));
+        }
+    }
+    return treeNode;
+    console.log(treeNode)
+}
+```
+
+
 
 # 项目问题
 Q: geoserver 中文乱码最后解决办法 
